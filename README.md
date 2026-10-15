@@ -121,36 +121,6 @@ Using a local server is recommended when testing browser features such as Wake L
 
 ---
 
-## 🌐 Deploy with GitHub Pages
-
-This repository includes a GitHub Actions workflow for Pages.
-
-1. Create a new GitHub repository, for example `contando-juntos`.
-2. Upload/push all files in this folder to the repository.
-3. On GitHub, go to **Settings → Pages**.
-4. Under **Build and deployment → Source**, choose **GitHub Actions**.
-5. Push to the `main` branch (or run the workflow manually from the **Actions** tab).
-6. GitHub will publish the site and show the public Pages URL after deployment.
-
-Typical URL:
-
-```text
-https://YOUR-USERNAME.github.io/contando-juntos/
-```
-
-### First push from the command line
-
-```bash
-git init
-git add .
-git commit -m "Build Contando Juntos inclusive classroom timer"
-git branch -M main
-git remote add origin https://github.com/YOUR-USERNAME/contando-juntos.git
-git push -u origin main
-```
-
----
-
 ## 🧠 How the timer works
 
 The timer uses an absolute end timestamp instead of subtracting exactly one second on every interval. That makes it more resilient when a browser tab temporarily slows background JavaScript.
