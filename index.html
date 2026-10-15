@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Contando Juntos: un temporizador visual, musical y accesible para acompañar transiciones de aula de forma predecible y amable."
+  />
+  <meta name="theme-color" content="#00454c" />
+  <title>Contando Juntos | Temporizador de aula inclusivo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al temporizador</a>
+
+  <header class="site-header">
+    <div class="brand" aria-label="Contando Juntos">
+      <span class="brand-mark" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+      <span>
+        <strong>Contando Juntos</strong>
+        <small data-i18n="tagline">Tu tiempo, paso a paso.</small>
+      </span>
+    </div>
+
+    <div class="header-actions">
+      <button id="languageButton" class="text-button" type="button" aria-label="Cambiar idioma a inglés">
+        EN
+      </button>
+      <button id="settingsButton" class="icon-button" type="button" aria-expanded="false" aria-controls="settingsPanel">
+        <span aria-hidden="true">⚙</span>
+        <span data-i18n="settings">Ajustes</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" class="app-shell">
+    <section class="intro-card" aria-labelledby="welcomeTitle">
+      <div>
+        <p class="eyebrow" data-i18n="eyebrow">TEMPORIZADOR VISUAL DE AULA</p>
+        <h1 id="welcomeTitle" data-i18n="welcomeTitle">Saber cuánto falta puede hacer el día más tranquilo.</h1>
+        <p class="intro-copy" data-i18n="welcomeCopy">
+          Elige una actividad, mira cómo avanza el tiempo y recibe señales suaves antes de cambiar a lo siguiente.
+        </p>
+      </div>
+      <div class="friendly-illustration" aria-hidden="true">
+        <div class="sun"></div>
+        <div class="hill hill-one"></div>
+        <div class="hill hill-two"></div>
+        <div class="character">
+          <span class="eye left"></span>
+          <span class="eye right"></span>
+          <span class="smile"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="routine-card" aria-labelledby="routineTitle">
+      <div class="section-heading">
+        <div>
+          <p class="step-label" data-i18n="stepOne">1 · PREPARA LA RUTINA</p>
+          <h2 id="routineTitle" data-i18n="routineTitle">¿Qué hacemos ahora y qué viene después?</h2>
+        </div>
+        <span class="calm-badge" data-i18n="predictable">Predecible y claro</span>
+      </div>
+
+      <div class="routine-grid">
+        <label class="field-card now-field">
+          <span class="field-icon" aria-hidden="true">●</span>
+          <span class="field-copy">
+            <span data-i18n="nowLabel">Ahora</span>
+            <input id="currentActivity" maxlength="40" type="text" placeholder="Ej. Lectura" data-i18n-placeholder="nowPlaceholder" />
+          </span>
+        </label>
+
+        <span class="routine-arrow" aria-hidden="true">→</span>
+
+        <label class="field-card next-field">
+          <span class="field-icon" aria-hidden="true">★</span>
+          <span class="field-copy">
+            <span data-i18n="nextLabel">Después</span>
+            <input id="nextActivity" maxlength="40" type="text" placeholder="Ej. Recreo" data-i18n-placeholder="nextPlaceholder" />
+          </span>
+        </label>
+      </div>
+    </section>
+
+    <section class="timer-card" aria-labelledby="timerTitle">
+      <div class="section-heading timer-heading">
+        <div>
+          <p class="step-label" data-i18n="stepTwo">2 · ELIGE EL TIEMPO</p>
+          <h2 id="timerTitle" data-i18n="timerTitle">¿Cuánto tiempo necesitamos?</h2>
+        </div>
+      </div>
+
+      <div class="preset-row" role="group" aria-label="Duraciones rápidas">
+        <button class="preset-button" type="button" data-seconds="300">5 <span data-i18n="minutesShort">min</span></button>
+        <button class="preset-button selected" type="button" data-seconds="600">10 <span data-i18n="minutesShort">min</span></button>
+        <button class="preset-button" type="button" data-seconds="900">15 <span data-i18n="minutesShort">min</span></button>
+        <button class="preset-button" type="button" data-seconds="1200">20 <span data-i18n="minutesShort">min</span></button>
+      </div>
+
+      <div class="custom-time" aria-label="Tiempo personalizado">
+        <span data-i18n="customTime">Otro tiempo:</span>
+        <label>
+          <span class="sr-only" data-i18n="minutes">Minutos</span>
+          <input id="minutesInput" type="number" inputmode="numeric" min="0" max="120" value="10" />
+          <small data-i18n="minutesShort">min</small>
+        </label>
+        <label>
+          <span class="sr-only" data-i18n="seconds">Segundos</span>
+          <input id="secondsInput" type="number" inputmode="numeric" min="0" max="59" value="0" />
+          <small data-i18n="secondsShort">s</small>
+        </label>
+      </div>
+
+      <div class="timer-layout">
+        <div class="timer-visual-wrap">
+          <div class="timer-visual" id="timerVisual">
+            <svg class="progress-ring" viewBox="0 0 260 260" aria-hidden="true">
+              <circle class="ring-track" cx="130" cy="130" r="112"></circle>
+              <circle id="progressCircle" class="ring-progress" cx="130" cy="130" r="112"></circle>
+            </svg>
+
+            <div class="timer-center">
+              <span id="phaseIcon" class="phase-icon" aria-hidden="true">☀</span>
+              <div id="timeDisplay" class="time-display" role="timer" aria-live="off">10:00</div>
+              <div id="phaseText" class="phase-text" data-i18n="ready">Listos cuando tú quieras</div>
+            </div>
+          </div>
+
+          <div class="activity-summary" aria-live="polite">
+            <div>
+              <span data-i18n="nowLabel">Ahora</span>
+              <strong id="currentActivityDisplay" data-i18n="defaultNow">Nuestra actividad</strong>
+            </div>
+            <div class="activity-divider" aria-hidden="true"></div>
+            <div>
+              <span data-i18n="nextLabel">Después</span>
+              <strong id="nextActivityDisplay" data-i18n="defaultNext">Lo siguiente</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="timer-controls-panel">
+          <div class="progress-steps" aria-label="Etapas del temporizador">
+            <div class="progress-step active" data-phase="start">
+              <span>1</span>
+              <div>
+                <strong data-i18n="phaseStartTitle">Empezamos</strong>
+                <small data-i18n="phaseStartCopy">Hay bastante tiempo.</small>
+              </div>
+            </div>
+            <div class="progress-step" data-phase="middle">
+              <span>2</span>
+              <div>
+                <strong data-i18n="phaseMiddleTitle">En camino</strong>
+                <small data-i18n="phaseMiddleCopy">Ya avanzamos una buena parte.</small>
+              </div>
+            </div>
+            <div class="progress-step" data-phase="soon">
+              <span>3</span>
+              <div>
+                <strong data-i18n="phaseSoonTitle">Casi terminamos</strong>
+                <small data-i18n="phaseSoonCopy">Prepárate para el cambio.</small>
+              </div>
+            </div>
+            <div class="progress-step" data-phase="done">
+              <span>✓</span>
+              <div>
+                <strong data-i18n="phaseDoneTitle">Terminamos</strong>
+                <small data-i18n="phaseDoneCopy">Buen trabajo. Ahora sigue lo siguiente.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="primary-controls">
+            <button id="startPauseButton" class="primary-button" type="button">
+              <span id="startPauseIcon" aria-hidden="true">▶</span>
+              <span id="startPauseText" data-i18n="start">Empezar</span>
+            </button>
+            <button id="resetButton" class="secondary-button" type="button" data-i18n="reset">Reiniciar</button>
+          </div>
+
+          <div class="sensory-controls" aria-label="Controles sensoriales">
+            <button id="musicButton" class="sensory-button" type="button" aria-pressed="false">
+              <span aria-hidden="true">♫</span>
+              <span>
+                <strong data-i18n="music">Música suave</strong>
+                <small id="musicState" data-i18n="off">Apagada</small>
+              </span>
+            </button>
+            <button id="motionButton" class="sensory-button" type="button" aria-pressed="false">
+              <span aria-hidden="true">◌</span>
+              <span>
+                <strong data-i18n="motion">Movimiento</strong>
+                <small id="motionState" data-i18n="gentle">Suave</small>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="transitionBanner" class="transition-banner" hidden>
+        <span class="transition-symbol" aria-hidden="true">★</span>
+        <div>
+          <strong id="transitionTitle" data-i18n="almostThere">Ya casi.</strong>
+          <span id="transitionMessage" data-i18n="transitionCopy">Vamos terminando con calma.</span>
+        </div>
+      </div>
+
+      <div id="completionCard" class="completion-card" hidden>
+        <div class="celebration" aria-hidden="true">
+          <span>●</span><span>★</span><span>●</span><span>★</span><span>●</span>
+        </div>
+        <span class="completion-icon" aria-hidden="true">✓</span>
+        <div>
+          <p class="step-label" data-i18n="completeLabel">TIEMPO COMPLETADO</p>
+          <h3 id="completionTitle" data-i18n="completeTitle">¡Terminamos!</h3>
+          <p id="completionText" data-i18n="completeText">Buen trabajo. Puedes pasar a la siguiente actividad cuando estés listo.</p>
+        </div>
+        <button id="againButton" class="secondary-button" type="button" data-i18n="again">Usar otra vez</button>
+      </div>
+
+      <p id="screenReaderStatus" class="sr-only" aria-live="polite" aria-atomic="true"></p>
+    </section>
+
+    <section class="why-card" aria-labelledby="whyTitle">
+      <div>
+        <p class="eyebrow" data-i18n="whyEyebrow">DISEÑADO PARA ACOMPAÑAR, NO APRESURAR</p>
+        <h2 id="whyTitle" data-i18n="whyTitle">Pocas sorpresas. Señales claras. Opciones sensoriales.</h2>
+      </div>
+      <div class="principles-grid">
+        <article>
+          <span aria-hidden="true">◔</span>
+          <h3 data-i18n="principleVisualTitle">Tiempo visible</h3>
+          <p data-i18n="principleVisualCopy">El círculo, los números y las etapas muestran la misma información de tres formas.</p>
+        </article>
+        <article>
+          <span aria-hidden="true">♫</span>
+          <h3 data-i18n="principleSoundTitle">Sonido opcional</h3>
+          <p data-i18n="principleSoundCopy">La música está apagada por defecto y las señales son cortas y suaves.</p>
+        </article>
+        <article>
+          <span aria-hidden="true">→</span>
+          <h3 data-i18n="principleTransitionTitle">Transiciones anticipadas</h3>
+          <p data-i18n="principleTransitionCopy">Una señal previa ayuda a saber que la actividad está por cambiar.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <aside id="settingsPanel" class="settings-panel" aria-hidden="true" aria-labelledby="settingsTitle" inert>
+    <div class="settings-header">
+      <div>
+        <p class="step-label" data-i18n="preferences">PREFERENCIAS</p>
+        <h2 id="settingsTitle" data-i18n="settingsTitle">Ajusta la experiencia</h2>
+      </div>
+      <button id="closeSettingsButton" class="close-button" type="button" aria-label="Cerrar ajustes">×</button>
+    </div>
+
+    <div class="setting-group">
+      <label for="volumeInput">
+        <span data-i18n="volume">Volumen</span>
+        <output id="volumeOutput" for="volumeInput">35%</output>
+      </label>
+      <input id="volumeInput" type="range" min="0" max="100" value="35" />
+    </div>
+
+    <div class="setting-group">
+      <label for="warningSelect" data-i18n="warningLabel">Aviso antes de terminar</label>
+      <select id="warningSelect">
+        <option value="30" data-i18n="warning30">30 segundos antes</option>
+        <option value="60" selected data-i18n="warning60">1 minuto antes</option>
+        <option value="120" data-i18n="warning120">2 minutos antes</option>
+        <option value="300" data-i18n="warning300">5 minutos antes</option>
+      </select>
+      <p class="setting-help" data-i18n="warningHelp">En temporizadores cortos, el aviso se ajusta automáticamente para no empezar demasiado pronto.</p>
+    </div>
+
+    <label class="toggle-setting">
+      <input id="cueSoundsToggle" type="checkbox" checked />
+      <span class="toggle-ui" aria-hidden="true"></span>
+      <span>
+        <strong data-i18n="cueSounds">Señales de sonido</strong>
+        <small data-i18n="cueSoundsHelp">Campanitas suaves al iniciar, avisar y terminar.</small>
+      </span>
+    </label>
+
+    <label class="toggle-setting">
+      <input id="keepAwakeToggle" type="checkbox" />
+      <span class="toggle-ui" aria-hidden="true"></span>
+      <span>
+        <strong data-i18n="keepAwake">Mantener pantalla activa</strong>
+        <small data-i18n="keepAwakeHelp">Evita que la pantalla se duerma durante el temporizador cuando el navegador lo permite.</small>
+      </span>
+    </label>
+
+    <p class="privacy-note" data-i18n="privacyNote">Tus preferencias se guardan solo en este dispositivo. La app no recopila datos.</p>
+  </aside>
+  <div id="settingsBackdrop" class="settings-backdrop" hidden></div>
+
+  <footer class="site-footer">
+    <p>Contando Juntos · <span data-i18n="footer">Hecho para rutinas de aula más claras y amables.</span></p>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
