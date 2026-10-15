@@ -3,8 +3,7 @@
 **Inclusive classroom timer built with HTML, CSS, and JavaScript.**  
 Created to make classroom time more visible, predictable, and approachable for children who benefit from clear transitions and sensory choices.
 
-> **Live app:**
-> `https://diegoalejandrochc.github.io/contando-juntos/`
+> **Live app:** [https://diegoalejandrochc.github.io/contando-juntos/](https://diegoalejandrochc.github.io/contando-juntos/)
 
 ---
 
